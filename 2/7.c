@@ -7,19 +7,24 @@ typedef struct node {
 	struct node* next;
 } node;
 
-void add(node** position, int value) {
+void add(node** prev_pos, node** next_pos, int value) {
 	node* new_node = malloc(sizeof(node));
-
 	new_node->value = value;
-	new_node->next = *position;
-	if(*position == NULL) {
-		new_node->prev = NULL;
+	
+	new_node->next = *next_pos;
+	if(*next_pos != NULL) {
+		(*next_pos)->prev = new_node;
 	}
-	else {
-		new_node->prev = (**position).prev;
-		(**position).prev = new_node;
+	new_node->prev = *prev_pos;
+	if(*prev_pos != NULL) {
+		(*prev_pos)->next = new_node;
 	}
-	*position = new_node;
+	if(*prev_pos == NULL) {
+		next_pos = &new_node;
+	}
+	if(*next_pos == NULL) {
+		prev_pos = &new_node;
+	}
 }
 
 void print_list(node* head) {
@@ -32,24 +37,13 @@ void print_list(node* head) {
 }
 
 int main(void) {
-	node* first = NULL;
-	// add(&first, 20);
-	// add(&(first->next), 40);
-	// node* second = first->next;
-	// add(&(second->next), 80);
-	// node* third = second->next;
-	// add(&(third->next), 160);
-	// print_list(first);
-	// add(&first, 10);
-	// print_list(first);
-	// add(&second, 1212);
-	// print_list(first);
-	for(int i = 1; i <= 10; i++) {
-		add(&first, i*i);
-	}
-	print_list(first);
-	node* second = first->next;
-	add(&second, 42);
-	printf("\n");
-	print_list(first);
+	node* null = NULL;
+	node* head = NULL;
+	node* tail = NULL;
+	add(&head, &tail, 1);
+	print_list(tail);
+	print_list(head);
+	add(&null, &head, 2);
+	print_list(tail);
+	print_list(head);
 }
