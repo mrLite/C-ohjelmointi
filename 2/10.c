@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "print_doubles.h"
 
 void swap(void* a, void* b, size_t elem_size)
 {
@@ -19,16 +20,6 @@ void shuffle(void* array, int len, size_t elem_size) {
 	for(int i = 0; i < len; i++) {
 		int r = rand()%len;
 		swap((char*)array+i*elem_size, (char*)array+r*elem_size, elem_size);
-	}
-}
-
-void print_doubles(double* array, int len) {
-	int counter = 0;
-	if(len > 0) {
-		while(counter < len) {
-			printf("%.5f\n", array[counter]);
-			counter++;
-		}
 	}
 }
 
