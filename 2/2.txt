@@ -1,0 +1,54 @@
+int arr[5] = {0,0,0,0,0};
+sizeof(short) = 2 bytes;
+sizeof(int) = 4 bytes;
+sizeof(float) = 4 bytes;
+sizeof(double) = 8 bytes;
+
+a) arr[3] = 42;
+3*4 = 12;
+addr = arr + 12 bytes;
+write = 4 bytes;
+
+b) arr[9] = 7;
+9*4 = 36;
+addr = arr + 36 bytes;
+write = 4 bytes;
+
+c) arr[-4] = 1;
+-4*4 = -16;
+addr = arr - 16 bytes;
+write = 4 bytes;
+
+d) ((short*)arr)[7] = 128;
+7*2 = 14;
+addr = arr + 14 bytes;
+write = 2 bytes;
+
+e) ((double*)arr)[2] = 3.14;
+2*8 = 16;
+addr = arr + 16 bytes;
+write = 8 bytes;
+
+f) ((char*)&arr[1])[6] = ’A’;
+sizeof(char) = 1 byte;
+addr = arr + 4 bytes + 6 bytes;
+write = 1 byte;
+
+g) ((float*)(&((short*)&arr[3])[-3]))[0] = 7.5;
+&arr[3] = arr + 12 bytes;
+((short*)&arr[3])[-3] = (arr + 12 bytes) - 6 bytes;
+addr = arr + 6 bytes;
+write = 4 bytes;
+
+arr = 0
+a) 12..16
+b) 36..40
+c) -16..-12
+d) 14..16
+e) 16..24
+f) 10..11
+g) 6..10
+
+i) arr[0] = 0..4, NULL
+ii) arr[2] = 8..12, f & g
+iii) arr[4] = 16..20, e

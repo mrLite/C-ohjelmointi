@@ -6,54 +6,23 @@ typedef struct list_node {
 	struct list_node* next;
 } list_node;
 
-void add(list_node** head, int index, int value) {
-	list_node* new_node = malloc(sizeof(list_node));
-	if(new_node != NULL && index >= 0) {
-		new_node->value = value;
-		if(index == 0) {
-			new_node->next = *head;
-			*head = new_node;
-			return;
-		}
-		else {
-			list_node* current = *head;
-			int count = 0;
-			while(current != NULL) {
-				if(count == index-1) {
-					new_node->next = current->next;
-					current->next = new_node;
-					return;
-				}
-				count++;
-				current = current->next;
-			}
-		}
-	}
+void add(list_node** position, int value) {
+	list_node* new = malloc(sizeof(list_node));
+	new->value = value;
+	
+	new->next = *position;
+	*position = new;
 	return;
 }
 
-void delete(list_node** head, int index) {
-	list_node* current = *head;
-	int count = 0;
-	
-	if(current != NULL && index == 0) {
-		*head = current->next;
-		free(current);
-		return;
-	}
-	
-	while(current != NULL) {
-		if(count == index-1) {
-			list_node* deleted = current->next;
-			if(deleted != NULL) {
-				current->next = deleted->next;
-				free(deleted);
-			}
-			return;
-		}
-		count++;
-		current = current->next;
-	}
+void delete(list_node* prev, list_node** deleted) {
+	list_node* foo = *deleted;
+	// case where 'deleted' is the first item on the list
+	if(prev == NULL)
+		*deleted = (*deleted)->next;
+	else
+		prev->next = (*deleted)->next;
+	free(foo);
 	return;
 }
 
@@ -69,15 +38,17 @@ void print_list(list_node* head) {
 
 int main(void) {
 	list_node* head = NULL;
-	add(&head, 0, 1);
-	add(&head, 0, 2);
-	add(&head, 1, 3);
-	add(&head, 3, 666);
+	add(&head, 1);
+	add(&(head->next), 2);
+	add(&((head->next)->next), 3);
+	add(&head, 666);
 	print_list(head);
-	delete(&head, 3);
-	printf("Deleted the last item from the list.\n");
+	delete(head, &(head->next));
 	print_list(head);
-	printf("Deleted the first item from the list.\n");
-	delete(&head, 0);
+	delete(head->next, &((head->next)->next));
+	print_list(head);
+	delete(NULL, &head);
+	print_list(head);
+	delete(NULL, &head);
 	print_list(head);
 }
