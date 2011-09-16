@@ -28,14 +28,10 @@ void delete(dl_list_node** position) {
 		return;
 	}
 	dl_list_node* deleted = *position;
-	if((*position)->prev == NULL) {
-		*position = (*position)->next;
-		(*position)->prev = NULL;
-	}
-	else {
-		*position = (*position)->next;
-		(*position)->prev = deleted->prev;
-	}
+
+	*position = (*position)->next;
+	(*position)->prev = deleted->prev;
+	
 	free(deleted);
 	return;
 }
