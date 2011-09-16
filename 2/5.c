@@ -16,6 +16,10 @@ void add(list_node** position, int value) {
 }
 
 void delete(list_node* prev, list_node** position) {
+	if(*position == NULL) {
+		printf("List is empty.\n");
+		return;
+	}
 	list_node* deleted = *position;
 	if(prev == NULL)
 		*position = (*position)->next;

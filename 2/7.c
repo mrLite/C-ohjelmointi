@@ -22,20 +22,42 @@ void add(dl_list_node** position, int value) {
 	return;
 }
 
+void delete(dl_list_node** position) {
+	if(*position == NULL) {
+		printf("List is empty.\n");
+		return;
+	}
+	dl_list_node* deleted = *position;
+	if((*position)->prev == NULL) {
+		*position = (*position)->next;
+		(*position)->prev = NULL;
+	}
+	else {
+		*position = (*position)->next;
+		(*position)->prev = deleted->prev;
+	}
+	free(deleted);
+	return;
+}
+
 void print_list(dl_list_node* head) {
 	dl_list_node* current = head;
 	while (current != NULL) {
-		printf("%d\n", current->value);
+		printf("%d ", current->value);
 		current = current->next;
 	}
+	if(head != NULL)
+		printf("\n");
 }
 
 void print_list_reverse(dl_list_node* tail) {
 	dl_list_node* current = tail;
 	while(current != NULL) {
-		printf("%d\n", current->value);
+		printf("%d ", current->value);
 		current = current->prev;
 	}
+	if(tail != NULL)
+		printf("\n");
 }
 
 int main(void) {
@@ -47,7 +69,13 @@ int main(void) {
 	printf("\n");
 	add(&(head->next), 666);
 	print_list(head);
-	printf("\n");
+	printf("\nreverse list\n");
 	dl_list_node* tail = ((head->next)->next)->next;
+	print_list_reverse(tail);
+	printf("\ndeleted 666\n");
+	delete(&(head->next));
+	print_list(head);
+	tail = (head->next)->next;
+	printf("\n");
 	print_list_reverse(tail);
 }
