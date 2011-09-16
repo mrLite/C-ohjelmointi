@@ -15,14 +15,13 @@ void add(list_node** position, int value) {
 	return;
 }
 
-void delete(list_node* prev, list_node** deleted) {
-	list_node* foo = *deleted;
-	// case where 'deleted' is the first item on the list
+void delete(list_node* prev, list_node** position) {
+	list_node* deleted = *position;
 	if(prev == NULL)
-		*deleted = (*deleted)->next;
+		*position = (*position)->next;
 	else
-		prev->next = (*deleted)->next;
-	free(foo);
+		prev->next = (*position)->next;
+	free(deleted);
 	return;
 }
 
@@ -51,4 +50,6 @@ int main(void) {
 	print_list(head);
 	delete(NULL, &head);
 	print_list(head);
+	
+	return(EXIT_SUCCESS);
 }
