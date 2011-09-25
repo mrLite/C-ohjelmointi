@@ -16,7 +16,10 @@ int is_line_break(char ch) {
 int get_file_length(char* filename) {
 	int bytes;
 	FILE* fptr;
-	fptr = fopen(filename, "rb");
+	if((fptr = fopen(filename, "rb")) == NULL) {
+		printf("Failed to open file %s\n", filename);
+		return 0;
+	}
 	fseek(fptr, 0, SEEK_END);
 	bytes = ftell(fptr);
 	fclose(fptr);
@@ -174,7 +177,7 @@ int main(int argc, char* argv[]) {
 		free_map(the_map);
 	}
 	else {
-		printf("No filename given!\n");
+		printf("The map is a lie!\n");
 	}
 	return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv []) {
 	int ch;
@@ -8,14 +9,20 @@ int main(int argc, char *argv []) {
 	
 	if(argc > 1) {
 		fptr = fopen(argv[1], "r");
-		while ((ch = getc(fptr)) != EOF)
+		while(1) {
+			ch = getc(fptr);
 			if (ch == ' ' || ch == '\t' || ch == '\n') {
 				wc++;
 				chc++;
 			}
+			else if(ch == EOF) {
+				wc++;
+				break;
+			}
 			else {
 				chc++;
-			}	
+			}
+		}
 		fclose (fptr);
 	}
 	printf("Word count is %d\n", wc);

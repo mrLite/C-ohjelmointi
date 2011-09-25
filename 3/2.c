@@ -28,7 +28,9 @@ int main(int argc, char* argv[]) {
 		    putchar(ch);
 
 		fclose(fptr);
-		printf("\n");
+	}
+	else {
+		puts("Plz give me a filename!");
 	}
 	return 0;
 }

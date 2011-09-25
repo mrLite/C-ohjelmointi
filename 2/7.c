@@ -12,6 +12,7 @@ typedef struct dl_list {
 	struct dl_list_node* tail;
 } dl_list;
 
+// Functions adds new node with given value before given position.
 void add(dl_list* list, dl_list_node** position, int value) {
 	dl_list_node* new = malloc(sizeof(dl_list_node));
 	new->value = value;
@@ -105,26 +106,26 @@ int main(void) {
 	add(&list, &((list.tail)->next), 666);
 	print_list(&list);
 	print_list_reverse(&list);
-	printf("head: %d\ttail: %d\n", (list.head)->value, (list.tail)->value);
+	printf("head: %d, tail: %d\n", (list.head)->value, (list.tail)->value);
 	printf("\n");
 	
 	printf("Deleted head (222) from the list.\n");
 	delete(&list, (list.head));
 	print_list(&list);
 	print_list_reverse(&list);
-	printf("head: %d\ttail: %d\n", (list.head)->value, (list.tail)->value);
+	printf("head: %d, tail: %d\n", (list.head)->value, (list.tail)->value);
 	printf("\n");
 	
 	printf("Deleted node (333) from the middle of the list.\n");
 	delete(&list, (list.head)->next);
 	print_list(&list);
 	print_list_reverse(&list);
-	printf("head: %d\ttail: %d\n", (list.head)->value, (list.tail)->value);
+	printf("head: %d, tail: %d\n", (list.head)->value, (list.tail)->value);
 	printf("\n");
 	
 	printf("Deleted tail (666) from the list.\n");
 	delete(&list, (list.tail));
 	print_list(&list);
 	print_list_reverse(&list);
-	printf("head: %d\ttail: %d\n", (list.head)->value, (list.tail)->value);
+	printf("head: %d, tail: %d\n", (list.head)->value, (list.tail)->value);
 }
