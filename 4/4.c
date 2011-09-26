@@ -25,7 +25,7 @@ uint32_t make_32bit(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4) 
 uint8_t read_lsb(FILE* fptr) {
 	uint8_t result = 0;
 	uint8_t mask = 1;
-	result = ((uint8_t)(getc(fptr))) & mask;
+	result = ((uint8_t)getc(fptr)) & mask;
 	return result;
 }
 
@@ -47,23 +47,19 @@ uint32_t read_uint32(FILE* fptr) {
 	uint8_t b2 = (uint8_t)getc(fptr);
 	uint8_t b3 = (uint8_t)getc(fptr);
 	uint8_t b4 = (uint8_t)getc(fptr);
-	uint32_t result = make_32bit(b1,b2,b3,b4);
-	return result;
+	return make_32bit(b1,b2,b3,b4);
 }
 
 // Ex. 7
 uint32_t read_pixel_offset(FILE* fptr) {
 	fseek(fptr, 0xa, SEEK_SET);
-	uint32_t offset = read_uint32(fptr);
-	return offset;
+	return read_uint32(fptr);
 }
 
 // Ex. 8
 void reveal_message(FILE* fptr) {
-	uint32_t offset = read_pixel_offset(fptr);
-	fseek(fptr, offset, SEEK_SET);
+	fseek(fptr, read_pixel_offset(fptr), SEEK_SET);
 	uint8_t next_byte;
-	
 	while((next_byte = extract_byte(fptr))) {
 		printf("%c", (char)next_byte);
 	}
@@ -74,20 +70,11 @@ int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		FILE* fptr;
 		if((fptr = fopen(argv[1], "r")) != NULL) {
-			rewind(fptr);
-			uint8_t byte = extract_byte(fptr);
-			printf("%d\n", (int)byte);
-			rewind(fptr);
-			uint32_t byte32 = read_uint32(fptr);
-			print_bin(byte32);
-			uint32_t offset = read_pixel_offset(fptr);
-			printf("%d\n", offset);
 			reveal_message(fptr);
-			
 			fclose(fptr);
 		}
 		else {
-			printf("Couldn't open file!\n");
+			printf("Couldn't open file %s!\n", argv[1]);
 		}
 	}
 	return EXIT_SUCCESS;
