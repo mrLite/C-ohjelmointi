@@ -53,7 +53,10 @@ uint32_t read_uint32(FILE* fptr) {
 
 // Ex. 7
 uint32_t read_pixel_offset(FILE* fptr) {
-	fseek(fptr, 0xa, SEEK_SET);
+	if(fseek(fptr, 0xa, SEEK_SET)) {
+		puts("Error while seeking the file position!");
+		return 0;
+	}
 	return read_uint32(fptr);
 }
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "print_bin.h"
 
+// Ex. 1
 void print_bin(int value) {
 	char bin[36];
 	int mask = 1;

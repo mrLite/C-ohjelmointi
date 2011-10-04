@@ -12,12 +12,16 @@ state new_state(int state, int type, transition* transitions) {
 	return ret;
 }
 
+// Ex. 11
+// Adds transition T as the first element of the transition list TL.
 void add_transition_node(transition** TL, transition* T) {
 	T->next = *TL;
 	*TL = T;
 	return;
 }
 
+// Ex. 12
+// Constructs a new transition and adds it as the first element of the transition list of state s.
 int add_transition(state* s, int symbol, int state) {
 	transition* T = malloc(sizeof(transition));
 	if(T == NULL) {
@@ -30,6 +34,7 @@ int add_transition(state* s, int symbol, int state) {
 	return 1;
 }
 
+// Reads a line from the file pointed by fptr and extracts the symbol number and corresponding char representation.
 s_table_element read_symbol(FILE* fptr) {
 	char line[MAX_LEN+1];
 	int val;
@@ -43,6 +48,8 @@ s_table_element read_symbol(FILE* fptr) {
 	return s;
 }
 
+// Ex. 13
+// Reads symbol_c number of lines from a file pointed by fptr and constructs the symbol table.
 s_table_element* read_symbols(int symbol_c, FILE* fptr) {
 	s_table_element* symbol_table;
 	
@@ -57,6 +64,8 @@ s_table_element* read_symbols(int symbol_c, FILE* fptr) {
 	return symbol_table;
 }
 
+// Reads a line of the file pointed by fptr and constructs the final states table
+// Line should be of the format 'c n n n', where c is the number of final states, and n is a final state number.
 int* read_final_states(FILE* fptr, int* count) {
 	char str[MAX_LEN+1];
 	char delim[] = " ";
@@ -77,6 +86,8 @@ int* read_final_states(FILE* fptr, int* count) {
 	return final_states;
 }
 
+// Reads a line of the file pointed by fptr, and adds the transition to the appropriate state.
+// Line should be of the format 'a b c' where a denotes the state to which the transition belongs to, b is the symbol which transitions to the next state c.
 int read_transition(state* state_table, FILE* fptr) {
 	char line[MAX_LEN+1];
 	int cur_state, symbol, next_state;
@@ -90,6 +101,7 @@ int read_transition(state* state_table, FILE* fptr) {
 	return 1;
 }
 
+// Returns 1 if the third argument is a final state, otherwise 0.
 int is_final_state(int* final_states, int final_state_c, int state) {
 	for(int i = 0; i < final_state_c; ++i) {
 		if(final_states[i] == state)
@@ -117,6 +129,7 @@ void print_transitions(state* S) {
 	return;
 }
 
+// Ex. 14
 automaton* read_automaton(FILE* fptr) {	
 	int state_c;
 	int symbol_c;
