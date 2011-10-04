@@ -25,7 +25,8 @@ uint32_t make_32bit(uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4) 
 uint8_t read_lsb(FILE* fptr) {
 	uint8_t result = 0;
 	uint8_t mask = 1;
-	result = ((uint8_t)getc(fptr)) & mask;
+	uint8_t byte = (uint8_t)(getc(fptr));
+	result = byte & mask;
 	return result;
 }
 
@@ -58,7 +59,8 @@ uint32_t read_pixel_offset(FILE* fptr) {
 
 // Ex. 8
 void reveal_message(FILE* fptr) {
-	fseek(fptr, read_pixel_offset(fptr), SEEK_SET);
+	uint32_t offset = read_pixel_offset(fptr);
+	fseek(fptr, offset, SEEK_SET);
 	uint8_t next_byte;
 	while((next_byte = extract_byte(fptr))) {
 		printf("%c", (char)next_byte);
@@ -69,7 +71,7 @@ void reveal_message(FILE* fptr) {
 int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		FILE* fptr;
-		if((fptr = fopen(argv[1], "r")) != NULL) {
+		if((fptr = fopen(argv[1], "rb")) != NULL) {
 			reveal_message(fptr);
 			fclose(fptr);
 		}
