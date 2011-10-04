@@ -143,12 +143,7 @@ automaton* read_automaton(FILE* fptr) {
 	final_states = read_final_states(fptr, &final_state_c);
 	
 	// Constructing the symbol table
-	FILE* sym_t_fptr;
-	if((sym_t_fptr = fopen("symbol_table.txt", "r")) == NULL) {
-		puts("Couldn't open the symbol table file!");
-		return NULL;
-	}
-	symbol_table = read_symbols(symbol_c, sym_t_fptr);
+	symbol_table = read_symbols(symbol_c, fptr);
 	
 	// Constructing the state table
 	state_table = malloc(sizeof(state)*state_c);
