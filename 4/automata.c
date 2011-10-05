@@ -129,6 +129,34 @@ void print_transitions(state* S) {
 	return;
 }
 
+void free_tl(state* S) {
+	transition* tl = S->transitions;
+	if(tl == NULL)
+		return;
+	transition* curr = tl->next;
+	while(tl != NULL) {
+		free(tl);
+		tl = curr;
+		if(curr != NULL)
+			curr = curr->next;
+	}
+}
+
+void free_automaton(automaton* A) {
+	int* final_states = A->final_states;
+	s_table_element* symbol_table = A->symbol_table;
+	state* state_table = A->state_table;
+	int state_c = A->states;
+	
+	free(final_states);
+	free(symbol_table);
+	for(int i = 0; i < state_c; ++i) {
+		free_tl(&state_table[i]);
+	}
+	free(state_table);
+	return;
+}
+
 // Ex. 14
 automaton* read_automaton(FILE* fptr) {	
 	int state_c;
@@ -204,4 +232,6 @@ int main(void) {
 	state initial = test->state_table[0];
 	print_transitions(&initial);
 	print_symbol_table(test);
+	free_automaton(test);
+	free(test);
 }
