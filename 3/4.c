@@ -11,7 +11,7 @@ int main(int argc, char *argv []) {
 		fptr = fopen(argv[1], "r");
 		while(1) {
 			ch = getc(fptr);
-			if (ch == ' ' || ch == '\t' || ch == '\n') {
+			if ((ch == ' ') || (ch == '\t') || (ch == '\n')) {
 				wc++;
 				chc++;
 			}

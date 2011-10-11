@@ -6,7 +6,7 @@
 
 // Ex. 6
 int is_line_break(char ch) {
-	if(ch == '\n' || ch == '\r')
+	if(ch == '\n')
 		return 1;
 	else
 		return 0;
@@ -20,8 +20,15 @@ int get_file_length(char* filename) {
 		printf("Failed to open file %s\n", filename);
 		return 0;
 	}
-	fseek(fptr, 0, SEEK_END);
+	if(fseek(fptr, 0, SEEK_END)) {
+		puts("Error whilst seeking the end of file!");
+		return 0;
+	}
 	bytes = ftell(fptr);
+	if(bytes < 0) {
+		puts("Error whilst reading the position!");
+		return 0;
+	}
 	fclose(fptr);
 	return bytes;
 }
@@ -30,7 +37,7 @@ int get_file_length(char* filename) {
 char* load_data(char* filename) {
 	int length = get_file_length(filename);
 	int i = 0;
-	char* data = malloc(length*sizeof(char)+sizeof(char));
+	char* data = malloc((length+1)*sizeof(char));
 	char ch;
 	FILE* fptr;
 	
@@ -63,7 +70,7 @@ map* load_map(char* filename) {
 	char* data = new_map->data;
 	while(chars < bytes) {
 		ch = data[chars];
-		if(ch == '\n' || ch == '\r')
+		if(ch == '\n')
 			height++;
 		chars++;
 	}
